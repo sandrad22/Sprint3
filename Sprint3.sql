@@ -49,6 +49,18 @@ WHERE id = 'CcU-2938';
 # En la taula "transaction" ingressa un nou usuari amb la següent informació:
 # Id 108B1D1D-5B23-A76C-55EF-C568E49A99DD, credit_card_id CcU-9999, company_id b-9999, user_id 9999, lat 829.999, longitude -117.999, amount 111.11, declined 0
 
+
+# Comprobar si en la tabla company está el id = 'b-9999' y si en la tabla credit_card está id = 'CcU-9999'
+
+SELECT *
+FROM company
+WHERE id = 'b-9999';
+
+SELECT *
+FROM credit_card
+WHERE id = 'CcU-9999';
+
+
 INSERT INTO company (id)
 VALUES ('b-9999');
 
@@ -129,7 +141,25 @@ WHERE country = 'Germany';
 ####### AL CREAR LA TABLA user TAL Y COMO ESTÁ EN "estructura_datos_user.sql" LA FOREIGN KEY DE user SE CREA AL REVÉS, YA QUE INDICA QUE 1 TRANSACCION PODRIA SER HECHA POR MUCHOS USUARIOS, 
 ####### EN LUGAR DE QUE 1 USUARIO PUEDE HACER MUCHAS TRANSACCIONES, ASÍ QUE ELIMINAMOS LA TABLA user PARA VOLVERLA A CREAR CORRECTAMENTE
 
+
+####################################################
+####################################################
+####################################################
+####################################################
+####################################################
+####################################################
+
 DROP TABLE user;
+
+# en lugar de eliminar la tabla hacer solo un drop de la foreign key
+
+####################################################
+####################################################
+####################################################
+####################################################
+####################################################
+####################################################
+ 
  
 CREATE TABLE IF NOT EXISTS user (
         id INT PRIMARY KEY,
@@ -145,12 +175,7 @@ CREATE TABLE IF NOT EXISTS user (
     );
 
 
-# EJECUTAR "datos_introducir_user(1).sql" PARA INTRODUCIR TODOS LOS VALORES Y DESPUÉS YA SE PUEDE CREAR LA FOREIGN KEY user_id DE LA TABLA transaction
-
-ALTER TABLE transaction
-ADD FOREIGN KEY(user_id) REFERENCES user(id);
-
-# DA UN ERROR QUE INDICA QUE EN LA TABLA transaction HAY UN user_id QUE NO ESTÁ EN LA TABLA user. HAY QUE LOCALIZARLO 
+# Comprobar si hay algún user_id que no esté en la tabla USER
 
 SELECT DISTINCT transaction.user_id
 FROM transaction 
@@ -158,7 +183,8 @@ LEFT JOIN user
 ON transaction.user_id = user.id
 WHERE user.id IS NULL;
 
-# CUANDO YA ESTÁ LOCALIZADO, LO CREAMOS EN LA TABLA user
+
+# CUANDO YA ESTÁ LOCALIZADO, LO INSERTAMOS EN LA TABLA user
 
 INSERT INTO user (id)
 VALUES ("9999");
